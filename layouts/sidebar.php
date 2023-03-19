@@ -26,21 +26,36 @@
                   <span>Data Penjualan</span>
               </a>
           </li><!-- End Penjualan Page Nav -->
-
           <li class="nav-item">
-              <a class="nav-link <?php if ($menu == "Data Peramalan") echo "";
-                                    else echo "collapsed"; ?>" href="data-peramalan.php">
-                  <i class='bx bxs-analyse'></i>
-                  <span>Data Peramalan</span>
+              <a class="nav-link <?php if ($menu == "Algoritma WMA" || $menu == "Algoritma B-WMA") echo "";
+                                    else echo "collapsed"; ?>" data-bs-target="#diagnosa-nav" data-bs-toggle="collapse"
+                  href="#">
+                  <i class='bx bx-code-alt'></i><span>Algoritma Peramalan</span><i
+                      class="bi bi-chevron-down ms-auto"></i>
               </a>
-          </li><!-- End Peramalan Page Nav -->
-
+              <ul id="diagnosa-nav" class="nav-content collapse <?php if ($menu == "Algoritma WMA" || $menu == "Algoritma B-WMA") echo "show";
+                                                                else echo ""; ?>" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="wma.php" class="<?php if ($menu == "Algoritma WMA") echo "active";
+                                                else echo ""; ?>">
+                          <i class="bi bi-circle"></i><span>Algoritma WMA</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="b_wma.php" class="<?php if ($menu == "Algoritma B-WMA") echo "active";
+                                                    else echo ""; ?>">
+                          <i class="bi bi-circle"></i><span>Algoritma B-WMA</span>
+                      </a>
+                  </li>
+              </ul>
+          </li>
 
           <li class="nav-heading">Pages</li>
 
           <li class="nav-item">
               <a class="nav-link <?php if ($menu == "Profile") echo "";
-                                    else echo "collapsed"; ?>" data-bs-target="#pengaturan-nav" data-bs-toggle="collapse" href="#">
+                                    else echo "collapsed"; ?>" data-bs-target="#pengaturan-nav"
+                  data-bs-toggle="collapse" href="#">
                   <i class="bx bxs-cog"></i><span>Pengaturan</span><i class="bi bi-chevron-down ms-auto"></i>
               </a>
               <ul id="pengaturan-nav" class="nav-content collapse <?php if ($menu == "Profile") echo "show";

@@ -1,6 +1,6 @@
 <?php
-$title = "Data Barang - Prestok";
-$menu = "Data Barang";
+$title = "Peramalan B-WMA - Prestok";
+$menu = "Algoritma B-WMA";
 require 'layouts/header.php';
 require 'layouts/navbar.php';
 require 'layouts/sidebar.php';
@@ -9,11 +9,11 @@ require 'layouts/sidebar.php';
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Data Barang</h1>
+        <h1>Algorritma B-WMA</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                <li class="breadcrumb-item active">Data Barang</li>
+                <li class="breadcrumb-item active">Algorritma B-WMA</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -22,7 +22,7 @@ require 'layouts/sidebar.php';
         <div class="card recent-sales overflow-auto">
 
             <div class="card-body">
-                <h5 class="card-title"><i class="bx bx-table"></i> Tabel Peramalan</h5>
+                <h5 class="card-title"><i class="bx bx-table"></i> Tabel Peramalan Algoritma WMA</h5>
                 <form action="peramalan/proses.php" method="POST">
                     <div class="row">
                         <!-- Data Barang -->
@@ -35,7 +35,7 @@ require 'layouts/sidebar.php';
                                     $sql = mysqli_query($conn, "SELECT * FROM tb_penjualan");
                                     while ($barang = mysqli_fetch_assoc($sql)) {
                                     ?>
-                                        <option value="<?= $barang["id"]; ?>"><?= $barang["nama_barang"]; ?></option>
+                                    <option value="<?= $barang["id"]; ?>"><?= $barang["nama_barang"]; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

@@ -1,64 +1,48 @@
 <?php
-
-use JetBrains\PhpStorm\ArrayShape;
-
-session_start();
 require '../functions.php';
 
-function ramal($data)
-{
-    global $conn;
-    $nama_barang = $data['nama_barang'];
-    $bulan_penjualan = $data['bulan_penjualan'];
-    $tahun_penjualan = $data['tahun_penjualan'];
-    $tgl_peramalan = $tahun_penjualan . "-" . $bulan_penjualan;
-    $tgl_dibuat = date("Y-m-d");
+$nama_barang = "BRG001";
+$konstanta = 0.1;
 
-    $tahun_bulan_awal_row_x3 = date("m", strtotime('-3 month', strtotime($tgl_peramalan)));
-    $tahun_bulan_akhir_row_x1 = date("m", strtotime('-1 month', strtotime($tgl_peramalan)));
-
-    // Jumlah Pengeluaran Berdasarkan Bulan yang akan di Ramal
-    $jumlah_pengeluaran = mysqli_query($conn, "SELECT SUM(jumlah_barang) as total from tb_penjualan WHERE bulan_penjualan = $bulan_penjualan AND tahun_penjualan = $tahun_penjualan");
-    $data = mysqli_fetch_assoc($jumlah_pengeluaran);
-
-    // Total Penjualan
-    $totPenjulaan = $data["total"];
-
-    // View Pengeluaran
-    $no_wma = 1;
-    $viewPengeluaran = array();
-    $viewPengeluaran = mysqli_query($conn, "SELECT * FROM tb_penjualan WHERE bulan_penjualan = $tahun_bulan_akhir_row_x1 ");
-    while ($pengeluaran = mysqli_fetch_assoc($viewPengeluaran)) {
-        $data[] = $pengeluaran["jumlah_barang"] * $no_wma++;
-    }
-    $total = array_sum($data);
-
-    $total_wma = round($total / 6, 1, 2);
-    $error = $totPenjulaan - $total_wma;
-    $mad = abs($error);
-    $mse = pow($error, 2);
-
-    $query = "INSERT INTO tb_peramalan
-				VALUES 
-				('','$nama_barang','$bulan_penjualan','$tahun_penjualan','$totPenjulaan','$total_wma','$error','$mad','$mse','$tgl_dibuat')";
-
-    mysqli_query($conn, $query);
-
-    return mysqli_affected_rows($conn);
+$sqlPenjualan = mysqli_query($conn, "SELECT * FROM tb_penjualan WHERE kode_barang='$nama_barang' ORDER BY penjualan_id ASC");
+$dataPenjualan = [];
+while ($penjualan = mysqli_fetch_assoc($sqlPenjualan)) {
+    $dataPenjualan[] = $penjualan;
 }
 
-//Data Menu
-if (isset($_POST["ramal"])) {
+$alpha = $konstanta;
+$hasilPeramalan = [];
 
-    if (ramal($_POST) > 0) {
-        $_SESSION['status'] = "Peramalan Barang";
-        $_SESSION['status_icon'] = "success";
-        $_SESSION['status_info'] = "Berhasil Diproses";
-        header("Location: ../hasil-peramalan.php");
+for ($i = 0; $i < count($dataPenjualan); $i++) {
+    if ($i == 0) {
+        $S = $dataPenjualan[$i]['jumlah_penjualan'];
+        $S2 = $dataPenjualan[$i]['jumlah_penjualan'];
+        $S3 = $dataPenjualan[$i]['jumlah_penjualan'];
     } else {
-        $_SESSION['status'] = "Peramalan Barang";
-        $_SESSION['status_icon'] = "error";
-        $_SESSION['status_info'] = "Gagal Diproses";
-        header("Location: ../hasil-peramalan.php");
+        $S = $alpha * $dataPenjualan[$i]['jumlah_penjualan'] + (1 - $alpha) * ($S);
+        $S2 = $alpha * $S + (1 - $alpha) * $S2;
+        $S3 = $alpha * $S2 + (1 - $alpha) * $S3;
     }
+
+    $at = 3 * $S - 3 * $S2 + $S3;
+    $bt = $alpha / (2 * pow((1 - $alpha), 2)) * ((6 - 5 * $alpha) * $S - 2 * (5 - 4 * $alpha) * $S2 + (4 - 3 * $alpha) * $S3);
+    $ct = pow($alpha, 2) / (1 - pow($alpha, 2)) * ($S - 2 * $S2 + $S3);
+
+
+    $hasilPeramalan[] = number_format($S, 2, '.', '');
+    $hasilPeramalan[] = number_format($S2, 2, '.', '');
+    $hasilPeramalan[] = number_format($S3, 2, '.', '');
+    $hasilPeramalan[] = number_format($at, 2, '.', '');
+    $hasilPeramalan[] = number_format($bt, 2, '.', '');
+    $hasilPeramalan[] = number_format($ct, 2, '.', '');
 }
+
+$response = [
+    'konstanta' => $konstanta,
+    'periode' => count($dataPenjualan),
+    'data_penjualan' => $dataPenjualan,
+    'hasil_peramalan' => $hasilPeramalan
+];
+
+header('Content-Type: application/json');
+echo json_encode($response);

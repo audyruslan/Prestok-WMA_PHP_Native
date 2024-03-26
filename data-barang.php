@@ -38,14 +38,17 @@ require 'layouts/sidebar.php';
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Tambah Data Barang</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <form action="barang/tambah.php" method="post" class="needs-validation" novalidate>
                                 <div class="modal-body">
                                     <div class="row g-3">
                                         <div class="col-md-12">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="kode_barang" name="kode_barang" autocomplete="off" value="<?= $autocode; ?>" placeholder="Kode Barang" readonly>
+                                                <input type="text" class="form-control" id="kode_barang"
+                                                    name="kode_barang" autocomplete="off" value="<?= $autocode; ?>"
+                                                    placeholder="Kode Barang" readonly>
                                                 <label for="kode_barang">Kode Barang</label>
                                                 <div class="invalid-feedback">
                                                     Kode Barang Tidak Boleh Kosong.
@@ -54,37 +57,20 @@ require 'layouts/sidebar.php';
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-floating">
-                                                <textarea class="form-control" id="nama_barang" name="nama_barang" autocomplete="off" placeholder="Nama Barang" cols="30" rows="10" required></textarea>
+                                                <textarea class="form-control" id="nama_barang" name="nama_barang"
+                                                    autocomplete="off" placeholder="Nama Barang" cols="30" rows="10"
+                                                    required></textarea>
                                                 <label for="nama_barang">Nama Barang</label>
                                                 <div class="invalid-feedback">
                                                     Nama Barang Tidak Boleh Kosong.
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-floating">
-                                                <input type="month" class="form-control" name="bulan_tahun" id="bulan_tahun" required>
-                                                <label for="bulan_tahun">Bulan & Tahun Barang</label>
-                                                <div class="invalid-feedback">
-                                                    Bulan Barang Tidak Boleh Kosong.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-floating">
-                                                <input type="number" class="form-control" name="jumlah_barang" id="jumlah_barang" placeholder="Jumlah Barang" required>
-                                                <label for="jumlah_barang">Jumlah Barang</label>
-                                                <div class="invalid-feedback">
-                                                    Jumlah Barang Tidak Boleh Kosong.
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Batal</button>
                                     <button type="submit" name="tambah" class="btn btn-primary">Simpan</button>
                                 </div>
                             </form>
@@ -98,9 +84,11 @@ require 'layouts/sidebar.php';
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Import Data Barang</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                            <form action="barang/import.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <form action="barang/import.php" method="post" enctype="multipart/form-data"
+                                class="needs-validation" novalidate>
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -111,7 +99,8 @@ require 'layouts/sidebar.php';
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Batal</button>
                                     <button type="submit" name="import" class="btn btn-success">Import Data</button>
                                 </div>
                             </form>
@@ -131,8 +120,6 @@ require 'layouts/sidebar.php';
                                     <th scope="col">No.</th>
                                     <th scope="col">Kode Barang</th>
                                     <th scope="col">Nama Barang</th>
-                                    <th scope="col">Bulan Tahun</th>
-                                    <th scope="col">Jumlah Barang</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -143,57 +130,72 @@ require 'layouts/sidebar.php';
                                 while ($row = mysqli_fetch_assoc($sql)) {
                                 ?>
 
-                                    <tr>
-                                        <th scope="row"><?= $no; ?>.</th>
-                                        <td><?= $row["kode_barang"]; ?></td>
-                                        <td><?= $row["nama_barang"]; ?></td>
-                                        <td><?= $row["bulan_tahun"]; ?></td>
-                                        <td><?= $row["jumlah_barang"]; ?></td>
-                                        <td>
-                                            <a class="btn btn-success btn-sm ubah" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#ubahModal<?= $row["kode_barang"]; ?>"><i class="bx bxs-edit"></i> </a>
-                                            <a class="btn btn-danger btn-sm hapus_barang" href="barang/hapus.php?id=<?= $row["id"]; ?>"><i class="bx bxs-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <th scope="row"><?= $no; ?>.</th>
+                                    <td><?= $row["kode_barang"]; ?></td>
+                                    <td><?= $row["nama_barang"]; ?></td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm ubah" class="btn btn-primary mb-3"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#ubahModal<?= $row["kode_barang"]; ?>"><i
+                                                class="bx bxs-edit"></i> </a>
+                                        <a class="btn btn-danger btn-sm hapus_barang"
+                                            href="barang/hapus.php?id=<?= $row["id"]; ?>"><i
+                                                class="bx bxs-trash-alt"></i></a>
+                                    </td>
+                                </tr>
 
-                                    <div class="modal fade" id="ubahModal<?= $row["kode_barang"]; ?>" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Ubah Data barang</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="barang/ubah.php" method="post" class="needs-validation" novalidate>
-                                                    <input type="hidden" name="id" value="<?= $row["id"]; ?>">
-                                                    <div class="modal-body">
-                                                        <div class="row g-3">
-                                                            <div class="col-md-12">
-                                                                <div class="form-floating">
-                                                                    <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="<?= $row["kode_barang"]; ?>" autocomplete="off" placeholder="Kode barang" required readonly>
-                                                                    <label for="kode_barang">Kode Barang</label>
-                                                                    <div class="invalid-feedback">
-                                                                        Kode Barang Tidak Boleh Kosong.
-                                                                    </div>
+                                <div class="modal fade" id="ubahModal<?= $row["kode_barang"]; ?>" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Ubah Data barang</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form action="barang/ubah.php" method="post" class="needs-validation"
+                                                novalidate>
+                                                <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                                                <div class="modal-body">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-12">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" id="kode_barang"
+                                                                    name="kode_barang"
+                                                                    value="<?= $row["kode_barang"]; ?>"
+                                                                    autocomplete="off" placeholder="Kode barang"
+                                                                    required readonly>
+                                                                <label for="kode_barang">Kode Barang</label>
+                                                                <div class="invalid-feedback">
+                                                                    Kode Barang Tidak Boleh Kosong.
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-floating">
-                                                                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $row["nama_barang"]; ?>" autocomplete="off" placeholder="Nama barang" required>
-                                                                    <label for="nama_barang">Nama Barang</label>
-                                                                    <div class="invalid-feedback">
-                                                                        Nama Barang Tidak Boleh Kosong.
-                                                                    </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control" id="nama_barang"
+                                                                    name="nama_barang"
+                                                                    value="<?= $row["nama_barang"]; ?>"
+                                                                    autocomplete="off" placeholder="Nama barang"
+                                                                    required>
+                                                                <label for="nama_barang">Nama Barang</label>
+                                                                <div class="invalid-feedback">
+                                                                    Nama Barang Tidak Boleh Kosong.
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" name="ubah" class="btn btn-success">Ubah</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" name="ubah"
+                                                        class="btn btn-success">Ubah</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
+                                </div>
 
                                 <?php
                                     $no++;

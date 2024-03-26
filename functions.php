@@ -98,3 +98,35 @@ function tgl_indo($tanggal)
 
     return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
 }
+
+function getBulan($angka_bulan)
+{
+    switch ($angka_bulan) {
+        case '01':
+            return 'Januari';
+        case '02':
+            return 'Februari';
+        case '03':
+            return 'Maret';
+        case '04':
+            return 'April';
+        case '05':
+            return 'Mei';
+        case '06':
+            return 'Juni';
+        case '07':
+            return 'Juli';
+        case '08':
+            return 'Agustus';
+        case '09':
+            return 'September';
+        case '10':
+            return 'Oktober';
+        case '11':
+            return 'November';
+        case '12':
+            return 'Desember';
+        default:
+            return 'Bulan tidak valid';
+    }
+}

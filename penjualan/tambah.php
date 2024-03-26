@@ -6,14 +6,16 @@ function tambah($data)
 {
     global $conn;
     $kode_barang = $data['kode_barang'];
-    $nama_barang = $data['nama_barang'];
     $getBulanTahun = $data['bulan_tahun'];
-    $bulan_tahun = tgl_indo($getBulanTahun);
+    $bulan = substr($getBulanTahun, 5, 2);
+    $tahun_penjualan = substr($getBulanTahun, 0, 4);
     $jumlah_barang = $data['jumlah_barang'];
+
+    $bulan_penjualan = getBulan($bulan);
 
     $query = "INSERT INTO tb_penjualan
 				VALUES 
-				('','$kode_barang','$nama_barang','$bulan_tahun','$jumlah_barang')";
+				('','$kode_barang','$bulan_penjualan','$tahun_penjualan','$jumlah_barang')";
 
     mysqli_query($conn, $query);
 

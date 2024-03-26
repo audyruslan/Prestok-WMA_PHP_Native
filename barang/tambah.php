@@ -7,13 +7,10 @@ function tambah($data)
     global $conn;
     $kode_barang = $data['kode_barang'];
     $nama_barang = $data['nama_barang'];
-    $getBulanTahun = $data['bulan_tahun'];
-    $bulan_tahun = tgl_indo($getBulanTahun);
-    $jumlah_barang = $data['jumlah_barang'];
 
     $query = "INSERT INTO tb_barang
 				VALUES 
-				('','$kode_barang','$nama_barang','$bulan_tahun','$jumlah_barang')";
+				('','$kode_barang','$nama_barang')";
 
     mysqli_query($conn, $query);
 

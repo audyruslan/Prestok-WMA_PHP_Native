@@ -35,18 +35,20 @@ require 'layouts/sidebar.php';
                                     $sqlBarang = mysqli_query($conn, "SELECT * FROM tb_barang");
                                     while ($barang = mysqli_fetch_assoc($sqlBarang)) {
                                     ?>
-                                        <option value="<?= $barang["kode_barang"]; ?>"><?= $barang["nama_barang"]; ?>
-                                        </option>
+                                    <option value="<?= $barang["kode_barang"]; ?>"><?= $barang["nama_barang"]; ?>
+                                    </option>
                                     <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="konstanta">Konstanta</label>
-                                <input type="number" class="form-control" name="konstanta" id="konstanta" placeholder="Konstanta" autocomplete="off">
+                                <input type="number" class="form-control" name="konstanta" id="konstanta"
+                                    placeholder="Konstanta" autocomplete="off">
                             </div>
 
                             <div class="mt-3">
-                                <button type="button" class="btn btn-primary float-end" id="proses" name="proses">Proses</button>
+                                <button type="button" class="btn btn-primary float-end" id="proses"
+                                    name="proses">Proses</button>
                             </div>
                         </form>
                     </div>
@@ -76,6 +78,7 @@ require 'layouts/sidebar.php';
                                     <th scope="col">a</th>
                                     <th scope="col">b</th>
                                     <th scope="col">c</th>
+                                    <th scope="col">Forcast</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,59 +89,98 @@ require 'layouts/sidebar.php';
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bx bx-table"></i> Grafik Chart</h5>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <h5 class="card-title">Line Chart</h5>
+                        <canvas id="lineChart" style="max-height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
 </main><!-- End #main -->
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var btnProses = document.getElementById('proses');
-        btnProses.addEventListener('click', function() {
-            var namaBarang = document.getElementById('nama_barang').value;
-            var konstanta = document.getElementById('konstanta').value;
+document.addEventListener('DOMContentLoaded', function() {
+    var btnProses = document.getElementById('proses');
+    btnProses.addEventListener('click', function() {
+        var namaBarang = document.getElementById('nama_barang').value;
+        var konstanta = document.getElementById('konstanta').value;
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'peramalan/proses.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'peramalan/proses.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
 
-                    var response = JSON.parse(xhr.responseText);
-                    $('#hasilPeramalan').html('<p>Konstanta yang digunakan: ' + response.konstanta +
-                        '</p>');
-                    $('#hasilPeramalan').append('<p>Periode yang diramal: ' + response.periode +
-                        ' bulan</p>');
+                // Tampilkan data peramalan di chart
+                var labels = response.data_penjualan.map(function(data) {
+                    return data.bulan_penjualan;
+                });
+                var dataPeramalan = response.hasil_peramalan.map(function(data) {
+                    return data !== undefined ? data : 0;
+                });
 
-                    var tbody = $('#barangTable tbody');
-                    tbody.empty();
-
-                    for (var i = 0; i < response.data_penjualan.length; i++) {
-                        var row = '<tr>';
-                        row += '<td>' + response.data_penjualan[i]['bulan_penjualan'] + '</td>';
-                        row += '<td>' + response.data_penjualan[i]['tahun_penjualan'] + '</td>';
-                        row += '<td>' + response.data_penjualan[i]['jumlah_penjualan'] + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6] !== undefined ? response
-                            .hasil_peramalan[i * 6] : 0) + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + 1] !== undefined ? response
-                            .hasil_peramalan[i * 6 + 1] : 0) + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + 2] !== undefined ? response
-                            .hasil_peramalan[i * 6 + 2] : 0) + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + 3] !== undefined ? response
-                            .hasil_peramalan[i * 6 + 3] : 0) + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + 4] !== undefined ? response
-                            .hasil_peramalan[i * 6 + 4] : 0) + '</td>';
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + 5] !== undefined ? response
-                            .hasil_peramalan[i * 6 + 5] : 0) + '</td>';
-
-                        row += '</tr>';
-                        tbody.append(row);
+                var lineChart = new Chart(document.querySelector('#lineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Line Chart',
+                            data: dataPeramalan,
+                            fill: false,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
                     }
-                } else {
-                    console.error(xhr.responseText);
+                });
+
+                // Tampilkan informasi peramalan di hasilPeramalan
+                $('#hasilPeramalan').html('<p>Konstanta yang digunakan: ' + response.konstanta +
+                    '</p>');
+                $('#hasilPeramalan').append('<p>Periode yang diramal: ' + response.periode +
+                    ' bulan</p>');
+
+                var tbody = $('#barangTable tbody');
+                tbody.empty();
+
+                for (var i = 0; i < response.data_penjualan.length; i++) {
+                    var row = '<tr>';
+                    row += '<td>' + response.data_penjualan[i]['bulan_penjualan'] + '</td>';
+                    row += '<td>' + response.data_penjualan[i]['tahun_penjualan'] + '</td>';
+                    row += '<td>' + response.data_penjualan[i]['jumlah_penjualan'] + '</td>';
+
+                    for (var j = 0; j < 7; j++) {
+                        row += '<td>' + (response.hasil_peramalan[i * 6 + j] !== undefined ?
+                            response.hasil_peramalan[i * 6 + j] : 0) + '</td>';
+                    }
+
+                    row += '</tr>';
+                    tbody.append(row);
                 }
-            };
-            xhr.send('nama_barang=' + namaBarang + '&konstanta=' + konstanta);
-        });
+            } else {
+                console.error(xhr.responseText);
+            }
+        };
+        xhr.send('nama_barang=' + namaBarang + '&konstanta=' + konstanta);
     });
+});
 </script>
+
+
 <?php require 'layouts/footer.php'; ?>

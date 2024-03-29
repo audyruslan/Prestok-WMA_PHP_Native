@@ -12,6 +12,7 @@ while ($penjualan = mysqli_fetch_assoc($sqlPenjualan)) {
 
 $alpha = $konstanta;
 $hasilPeramalan = [];
+$m = 1;
 
 for ($i = 0; $i < count($dataPenjualan); $i++) {
     if ($i == 0) {
@@ -36,6 +37,10 @@ for ($i = 0; $i < count($dataPenjualan); $i++) {
     $hasilPeramalan[] = number_format($bt, 2, '.', '');
     $hasilPeramalan[] = number_format($ct, 2, '.', '');
 }
+
+
+$ft = $at + $bt + (0.5 * ($ct * pow($m, 2)));
+$hasilPeramalan[] = number_format($ft, 2, '.', '');
 
 $response = [
     'konstanta' => $konstanta,

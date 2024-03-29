@@ -23,103 +23,77 @@ require 'layouts/sidebar.php';
             <!-- Recent Sales -->
             <div class="col-12">
 
-                <!-- Tambah Modal -->
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahModal">
-                    <i class="bx bx-plus-medical"></i> Tambah Data
-                </button>
-
-                <!-- Import Modal -->
-                <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#importModal">
-                    <i class='bx bx-import'></i> Import Data
-                </button>
-
-                <div class="modal fade" id="tambahModal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Tambah Data Penjualan</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form action="penjualan/tambah.php" method="post" class="needs-validation" novalidate>
-                                <div class="modal-body">
-                                    <div class="row g-3">
-                                        <div class="col-md-12">
-                                            <label for="kode_barang">Data Barang</label>
-                                            <select class="form-control" name="kode_barang" id="kode_barang">
-                                                <option value="">--Pilih Barang--</option>
-                                                <?php
-                                                $sqlBarang = mysqli_query($conn, "SELECT * FROM tb_barang");
-                                                while ($barang = mysqli_fetch_assoc($sqlBarang)) {
-                                                ?>
-                                                <option value="<?= $barang["kode_barang"]; ?>">
-                                                    <?= $barang["nama_barang"]; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="bulan_tahun">Bulan & Tahun Barang</label>
-                                                <input type="month" class="form-control" name="bulan_tahun"
-                                                    id="bulan_tahun" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="jumlah_barang">Jumlah Barang</label>
-                                                <input type="number" class="form-control" name="jumlah_barang"
-                                                    id="jumlah_barang" placeholder="Jumlah Barang" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Batal</button>
-                                    <button type="submit" name="tambah" class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Import Modal-->
-
-                <div class="modal fade" id="importModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Import Data Penjualan</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form action="penjualan/import.php" method="post" enctype="multipart/form-data"
-                                class="needs-validation" novalidate>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <label for="inputNumber" class="col-form-label">File Import</label>
-                                            <input class="form-control" type="file" id="formFile" accept=".xls,.xlsx">
-                                            <span class="text-danger">Masukkan Data .xls atau .xlsx</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Batal</button>
-                                    <button type="submit" name="import" class="btn btn-success">Import Data</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Tambah Modal-->
-
                 <div class="card recent-sales overflow-auto">
 
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title"><i class="bx bx-table"></i> Tabel Data Penjualan Barang</h3>
+
+                            <!-- Tambah Modal -->
+                            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                                data-bs-target="#tambahModal">
+                                <i class="bx bx-plus-medical"></i> Tambah Data
+                            </button>
+
+                            <!-- Tambah Modal -->
+                            <div class="modal fade" id="tambahModal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Tambah Data Penjualan</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="penjualan/tambah.php" method="post" class="needs-validation"
+                                            novalidate>
+                                            <div class="modal-body">
+                                                <div class="row g-3">
+                                                    <div class="col-md-12">
+                                                        <label for="kode_barang">Data Barang</label>
+                                                        <select class="form-control" name="kode_barang"
+                                                            id="kode_barang">
+                                                            <option value="">--Pilih Barang--</option>
+                                                            <?php
+                                                            $sqlBarang = mysqli_query($conn, "SELECT * FROM tb_barang");
+                                                            while ($barang = mysqli_fetch_assoc($sqlBarang)) {
+                                                            ?>
+                                                            <option value="<?= $barang["kode_barang"]; ?>">
+                                                                <?= $barang["nama_barang"]; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="bulan_tahun">Bulan & Tahun Barang</label>
+                                                            <input type="month" class="form-control" name="bulan_tahun"
+                                                                id="bulan_tahun" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="jumlah_barang">Jumlah Barang</label>
+                                                            <input type="number" class="form-control"
+                                                                name="jumlah_barang" id="jumlah_barang"
+                                                                placeholder="Jumlah Barang" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" name="tambah"
+                                                    class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title"><i class="bx bx-table"></i> Tabel Data Penjualan Barang</h5>
 
                         <table class="table table-borderless" id="barangTable">
                             <thead>

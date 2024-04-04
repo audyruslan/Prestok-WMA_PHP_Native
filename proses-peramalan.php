@@ -56,7 +56,7 @@ require 'layouts/sidebar.php';
             </div>
         </div>
 
-        <div class="row">
+        <div id="cardHasilPeramalan" class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -78,7 +78,7 @@ require 'layouts/sidebar.php';
                                     <th scope="col">a</th>
                                     <th scope="col">b</th>
                                     <th scope="col">c</th>
-                                    <th scope="col">Forcast</th>
+                                    <th scope="col">Forecast</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,7 +89,7 @@ require 'layouts/sidebar.php';
             </div>
         </div>
 
-        <div class="row">
+        <div id="cardGrafik" class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -107,6 +107,7 @@ require 'layouts/sidebar.php';
     </section>
 
 </main><!-- End #main -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var btnProses = document.getElementById('proses');
@@ -128,6 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 var dataPeramalan = response.hasil_peramalan.map(function(data) {
                     return data !== undefined ? data : 0;
                 });
+
+                console.log(dataPeramalan);
 
                 var lineChart = new Chart(document.querySelector('#lineChart'), {
                     type: 'line',
@@ -166,13 +169,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     row += '<td>' + response.data_penjualan[i]['jumlah_penjualan'] + '</td>';
 
                     for (var j = 0; j < 7; j++) {
-                        row += '<td>' + (response.hasil_peramalan[i * 6 + j] !== undefined ?
-                            response.hasil_peramalan[i * 6 + j] : 0) + '</td>';
+                        row += '<td>' + (response.hasil_peramalan[i * 7 + j] !== undefined ?
+                            response.hasil_peramalan[i * 7 + j] : 0) + '</td>';
                     }
 
                     row += '</tr>';
                     tbody.append(row);
                 }
+
+                // Tampilkan Card Hasil Peramalan dan Card Grafik
+                document.getElementById('cardHasilPeramalan').style.display = 'block';
+                document.getElementById('cardGrafik').style.display = 'block';
             } else {
                 console.error(xhr.responseText);
             }

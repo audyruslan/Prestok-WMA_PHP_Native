@@ -26,9 +26,11 @@ for ($i = 0; $i < count($dataPenjualan); $i++) {
     }
 
     $at = 3 * $S - 3 * $S2 + $S3;
-    $bt = $alpha / (2 * pow((1 - $alpha), 2)) * ((6 - 5 * $alpha) * $S - 2 * (5 - 4 * $alpha) * $S2 + (4 - 3 * $alpha) * $S3);
-    $ct = pow($alpha, 2) / (1 - pow($alpha, 2)) * ($S - 2 * $S2 + $S3);
+    $bt = $alpha / (2 * (1 - $alpha) ** 2) * ((6 - 5 * $alpha) * $S - 2 * (5 - 4 * $alpha) * $S2 + (4 - 3 * $alpha) * $S3);
+    $ct = $alpha ** 2 / (1 - $alpha) ** 2 * ($S - 2 * $S2 + $S3);
 
+    $m = 1; // jumlah periode ke depan untuk peramalan
+    $F = ($at * 1) + (($bt * 1) * $m) + (1 / 2 * ($ct * 1) * ($m ** 2));
 
     $hasilPeramalan[] = number_format($S, 2, '.', '');
     $hasilPeramalan[] = number_format($S2, 2, '.', '');
@@ -36,11 +38,8 @@ for ($i = 0; $i < count($dataPenjualan); $i++) {
     $hasilPeramalan[] = number_format($at, 2, '.', '');
     $hasilPeramalan[] = number_format($bt, 2, '.', '');
     $hasilPeramalan[] = number_format($ct, 2, '.', '');
+    $hasilPeramalan[] = number_format($F, 2, '.', '');
 }
-
-
-$ft = $at + $bt + (0.5 * ($ct * pow($m, 2)));
-$hasilPeramalan[] = number_format($ft, 2, '.', '');
 
 $response = [
     'konstanta' => $konstanta,

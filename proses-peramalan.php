@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
 
-                // Tampilkan data peramalan di chart
+                //  Tampilkan data peramalan di chart
                 var labels = response.data_penjualan.map(function(data) {
                     return data.bulan_penjualan;
                 });
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                // Tampilkan informasi peramalan di hasilPeramalan
+                // Tampilan informasi peramalan di hasilPeramalan
                 $('#hasilPeramalan').html('<p>Konstanta yang digunakan: ' + response.konstanta +
                     '</p>');
                 $('#hasilPeramalan').append('<p>Periode yang diramal: ' + response.periode +

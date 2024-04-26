@@ -63,18 +63,6 @@ if (isset($_POST["ubah_password"])) {
                         <img src="admin/<?= $admin["img_dir"]; ?>" alt="Profile" class="rounded-circle">
                         <h2><?= $admin["nama_lengkap"]; ?></h2>
                         <h3>Administrator</h3>
-                        <div class="social-links mt-2">
-                            <a href="https://www.facebook.com/banuasoftware" target="_blank" class="facebook"><i
-                                    class="bi bi-facebook"></i></a>
-                            <a href="https://www.instagram.com/banua_software/" target="_blank" class="instagram"><i
-                                    class="bi bi-instagram"></i></a>
-                            <a href="https://api.whatsapp.com/send?phone=6289522815496&text=Assalamualaikum%20Hai, Kak%20Saya%20ingin%20Buat%20Aplikasi%20%20Mohon%20informasi%20Detailnya?."
-                                target="_blank" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
-                            <a href="https://www.tiktok.com/@banua_software" target="_blank" class="tiktok"><i
-                                    class="bi bi-tiktok"></i></a>
-                            <a href="https://www.youtube.com/channel/UChI2HGKYV8ySc_Kqs1Kd7-w" target="_blank"
-                                class="youtube"><i class="bi bi-youtube"></i></a>
-                        </div>
                     </div>
                 </div>
 

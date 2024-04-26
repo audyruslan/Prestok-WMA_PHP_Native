@@ -1,8 +1,11 @@
 <?php
 require '../functions.php';
 
-$nama_barang = "BRG001";
-$konstanta = 0.1;
+// $nama_barang = "BRG001";
+// $konstanta = 0.1;
+
+$nama_barang = $_POST["nama_barang"];
+$konstanta = $_POST["konstanta"];
 
 $sqlPenjualan = mysqli_query($conn, "SELECT * FROM tb_penjualan WHERE kode_barang='$nama_barang' ORDER BY penjualan_id ASC");
 $dataPenjualan = [];

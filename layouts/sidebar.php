@@ -35,29 +35,6 @@
               </a>
           </li>
 
-          <li class="nav-item">
-              <a class="nav-link <?php if ($menu == "Laporan Produk" || $menu == "Laporan Penjualan") echo "";
-                                    else echo "collapsed"; ?>" data-bs-target="#laporan-nav" data-bs-toggle="collapse" href="#">
-                  <i class="bx bxs-file"></i><span>Laporan</span><i class="bi bi-chevron-down ms-auto"></i>
-              </a>
-              <ul id="laporan-nav" class="nav-content collapse <?php if ($menu == "Laporan Produk" || $menu == "Laporan Penjualan") echo "show";
-                                                                else echo ""; ?>" data-bs-parent="#sidebar-nav">
-                  <li>
-                      <a href="laporan-produk.php" class="<?php if ($menu == "Laporan Produk" || $menu == "Laporan Penjualan") echo "active";
-                                                            else echo ""; ?>">
-                          <i class="bi bi-circle"></i><span>Laporan Produk</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="laporan-penjualan.php" class="<?php if ($menu == "Laporan Penjualan") echo "active";
-                                                                else echo ""; ?>">
-                          <i class="bi bi-circle"></i><span>Laporan Penjualan</span>
-                      </a>
-                  </li>
-              </ul>
-          </li>
-
-
           <li class="nav-heading">Pages</li>
 
           <li class="nav-item">
